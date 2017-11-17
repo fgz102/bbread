@@ -1,0 +1,52 @@
+{
+  "app/detail.html": {
+    "href": "app/detail.html",
+    "resources": [],
+    "priority": 0
+  },
+  "app/tab-top-subpage-4.html": {
+    "href": "app/tab-top-subpage-4.html",
+    "resources": [],
+    "refer": [],
+    "priority": 0
+  },
+  "app/tab-top-subpage-5.html": {
+    "href": "app/tab-top-subpage-5.html",
+    "resources": [],
+    "priority": 1
+  },
+  "app/tab-top-subpage-3.html": {
+    "href": "app/tab-top-subpage-3.html",
+    "resources": [],
+    "refer": [],
+    "priority": 2
+  },
+  "app/tab-top-subpage-1.html": {
+    "href": "app/tab-top-subpage-1.html",
+    "resources": [],
+    "refer": [],
+    "priority": 3
+  },
+  "app/tab-top-subpage-2.html": {
+    "href": "app/tab-top-subpage-2.html",
+    "resources": [],
+    "priority": 4
+  },
+  "app/shouye.html": {
+    "href": "app/shouye.html",
+    "resources": [],
+    "refer": [],
+    "priority": 0
+  },
+  "app/setting.html": {
+    "href": "app/setting.html",
+    "resources": [],
+    "priority": 1
+  },
+  "app/index.html": {
+    "href": "app/index.html",
+    "resources": [],
+    "refer": [],
+    "priority": 0
+  }
+}

@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>列表到详情最佳实践</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<!--<link rel="stylesheet" href="video/css/bvd.css" />-->
+<!--<link rel="stylesheet" href="https://g.alicdn.com/de/prismplayer/2.2.0/skins/default/aliplayer-min.css" />
+<script type="text/javascript" src="https://g.alicdn.com/de/prismplayer/2.2.0/aliplayer-min.js"></script>-->
+		<link rel="stylesheet" href="video/css/aliplayer-min.css" />
+<!--<link rel="stylesheet" href="http://g.alicdn.com/de/prismplayer/2.2.0/skins/default/aliplayer-min.css"/>-->
+<!--<script src="https://g.alicdn.com/de/prismplayer/2.2.0/aliplayer-min.js"></script>-->
+<script type="text/javascript" src="video/js/aliplayer-min.js"></script>
+		<style type="text/css">
+			.mui-media {
+				font-size: 14px;
+			}
+			
+			.mui-table-view .mui-media-object {
+				max-width: initial;
+				width: 90px;
+				height: 70px;
+			}
+			
+			.meta-info {
+				position: absolute;
+				left: 115px;
+				right: 15px;
+				bottom: 8px;
+				color: #8f8f94;
+			}
+			
+			.meta-info .author,.meta-info .time{
+				display: inline-block;
+			}
+			
+			.meta-info .time{
+				float: right;
+			}
+			
+			.mui-table-view:before,
+			.mui-table-view:after {
+				height: 0;
+			}
+			
+			.mui-content>.mui-table-view:first-child {
+				margin-top: 1px;
+			}
+			
+			.banner {
+				height: 180px;
+				overflow: hidden;
+				position: relative;
+				background-position: center;
+				background-color: #ccc;
+			}
+			
+			.banner img {
+				width: 100%;
+				height: auto;
+			}
+			
+			.banner .title {
+				position: absolute;
+				left: 15px;
+				bottom: 15px;
+				width: 90%;
+				font-size: 16px;
+				font-weight: 400;
+				line-height: 21px;
+				color: white;
+				z-index: 11;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div class="mui-content" id="news">
+			<!--列表信息流 开始-->
+		 <div  class="prism-player" id="J_prismPlayer" style="position: absolute;left:0%;"></div>
+			
+
+			<!--列表信息流 结束-->
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<!--<script src="video/js/bvd.js"></script>-->
+		 <script>
+    var player = new Aliplayer({
+    id: "J_prismPlayer",
+         autoplay: true,
+         isLive:false,
+         playsinline:true,
+         width:"100%",
+         height:"auto",
+         controlBarVisibility:"click",
+         showBarTime:"2000",
+         useH5Prism:false,
+         useFlashPrism:false,
+         showBuffer:true,
+         source:"https://player.alicdn.com/video/aliyunmedia.mp4",
+         cover:"",
+         skinLayout:[{"name":"controlBar","align":"blabs","x":0,"y":0,"children":[{"name":"progress","align":"tlabs","x":0,"y":0},
+                {"name":"volume","align":"tr","x":20,"y":25},
+                {"name":"playButton","align":"tl","x":15,"y":26},
+                {"name":"fullScreenButton","align":"tr","x":20,"y":25},
+                {"name":"timeDisplay","align":"tl","x":10,"y":24},
+         		{"name":"infoDisplay","align":"cc"},
+         		{"name":"errorDisplay","align":"tlabs","x":0,"y":0}
+         ]}]
+});
+
+  		</script>
+	</body>
+
+</html>

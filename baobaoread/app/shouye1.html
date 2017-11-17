@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>首页</title>
+    
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="css/shouye.css"/>
+   	<script src="js/mui.min.js"></script>
+   	<script src="js/common.js"></script>
+   	<script src="js/zepto.min.js"></script>
+   	<script src="js/baiduTemplate.js" type="text/javascript" charset="utf-8"></script>
+   	<style>
+   		li{
+   			list-style: none;
+   			font-size: 18px;
+   		}
+		.mui-bar~.mui-content .mui-fullscreen {
+			top: 44px;
+			height: auto;
+		}
+		.mui-bar{
+			height: 50px;
+			line-height: 50px;
+		}
+		.mui-bar .mui-segmented-control{
+			top:2px;
+		}
+		.mui-bar~.mui-pull-top-tips {
+			top: 24px;
+		}
+		.mui-segmented-control.mui-scroll-wrapper{
+			height: 52px;
+		}				
+		.mui-slider-indicator.mui-segmented-control {
+			background-color: #efeff4;
+
+		}
+		.mui-segmented-control .mui-control-item{
+			line-height: 20px;
+		}
+		.mui-con-ul-li{
+			margin-bottom: 20px;
+		}
+		.mui-table-view{
+			background-color: #efeff4;
+		}
+		li.letter{
+			letter-spacing: 3px;
+			text-indent: 6px;
+		}
+		li.word{
+			word-spacing: 3px;
+		}
+
+		.mui-info h2#mui-title{height: 67px;}
+   	</style>
+</head>
+<body>   
+		<!--下拉刷新容器-->
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+		  <div class="mui-scroll">
+		  	<nav class="mui-bar mui-bar-nav">
+		  		<div id="slider" class="mui-slider mui-fullscreen">
+				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+		  			<div class="mui-scroll mui-row">
+						<a class="mui-control-item mui-active" href="#item1mobile" data-wid="tab-top-subpage-1.html">
+							<ul><li class="word">tuī kē</li><li class="letter">学 科</li></ul>
+						</a> 
+						<a class="mui-control-item" href="#item2mobile" data-wid="tab-top-subpage-2.html">
+							<ul><li class="word">xìng qù</li><li class="letter">兴 趣</li></ul>	
+						</a>
+						<a class="mui-control-item" href="#item3mobile" data-wid="tab-top-subpage-3.html">
+							<ul><li class="word">xiǎo shì pín</li><li class="letter">小 视 频</li></ul>
+						</a>
+						<a class="mui-control-item" href="#item4mobile" data-wid="tab-top-subpage-4.html">
+							<ul><li class="word">tuī jiàn</li><li class="letter">推 荐</li></ul>
+						</a>
+						<a class="mui-control-item" href="#item5mobile" data-wid="tab-top-subpage-5.html">
+							<ul><li class="word">tuī jiàn</li><li class="letter">推 荐</li></ul>
+						</a>
+				</div>
+				</div>
+				</div>
+			</nav>
+			<div class="mui-content">
+			<!--最新展示-->
+		  	<h3 id="mui-h3-title">内容头条介绍</h3>
+		    <!--数据列表-->
+		    <div class="mui-card">
+		    	
+		    	<ul class="mui-table-view mui-table-view-chevron" id="result">
+		     		<li class="mui-con-ul-li" style="position: relative;" id="1">
+		     			<img src="images/17.jpg" />
+		     			<div class="mui-info" style="position: absolute;left:50%;margin-left:-40%;z-index:2;bottom: -10px;width: 80%;text-align: center;">
+		     				<h2 id="mui-title">内容头条介绍</h2>
+		     			</div>
+		     		</li>
+		     		<!--<li class="mui-con-ul-li" style="position: relative;">
+		     			<img src="images/17.jpg" />
+		     			<div class="mui-info" style="position: absolute;left:50%;margin-left:-40%;z-index:2;bottom: -10px;width: 80%;text-align: center;">
+		     				<h2 id="mui-title">内容头条介绍</h2>
+		     			</div>
+		     		</li>
+		     		<li class="mui-con-ul-li" style="position: relative;">
+		     			<img src="images/17.jpg" />
+		     			<div class="mui-info" style="position: absolute;left:50%;margin-left:-40%;z-index:2;bottom: -10px;width: 80%;text-align: center;">
+		     				<h2 id="mui-title">内容头条介绍</h2>
+		     			</div>
+		     		</li>		     		-->
+				</ul>
+				<script id="shouyeHtml" type="text/html">
+		    		<%for(var i = 0;i<3;i++){%>
+			    		<li class="mui-con-ul-li" id="<%=data[i].id%>">
+				        	<img src="<%=url%>/<%=images/17.jpg%>"/><!--<%=data.list.goods[i].goods_thumb%>-->
+				        	<div class="mui-info">
+				        		<h2 id="mui-title"><%=data[i].title%></h2>
+				        	</div>
+				       </li> 
+			    	<%}%>
+		    	</script>
+			</div>
+			</div>
+		  </div>
+		</div> 
+</body>
+<script type="text/javascript">
+	var pid = 1; //传递的参数p的值
+	index({p:pid},callbackFun);
+ 
+/**
+ * 获取首页属性
+ * @param {Object} option
+ * @param {Object} func
+ */
+//function index(option,func){
+//	 Get(SERVERE,option,func);
+//}
+	
+	function callbackFun(data)
+	{
+		if(data != 0)
+		{
+			//使用baidu.template命名空间
+			var bt=baidu.template;
+			
+			//var lunbotu = bt('lunbotuHtml',{data:data});
+			//var circle = bt('circleHtml',{data:data});
+			var url=HOST;
+			var html=bt('shouyeHtml',{data:data,url:url});
+			//渲染
+			//document.getElementById("lunbotuId").innerHTML = lunbotu;
+			//document.getElementById("circle").innerHTML = circle;
+			document.getElementById('result').innerHTML=html;
+			
+		}else{	
+			mui.toast("数据读取出现错误！");
+		}
+	}
+	
+	mui.init({
+		pullRefresh: 
+		{
+			container: '#pullrefresh',
+			down: {
+				callback: pulldownRefresh
+			},
+			up: {
+				contentrefresh: '正在加载...',
+				contentnomore:"没有更多数据了",
+				callback: pullupRefresh
+			}
+		}
+	});
+	/**********视频列表页代码************/
+
+	/**********商品详情页代码***********/
+	mui('#result').on('tap','li',function(){
+		var news_id = this.getAttribute('id');
+		//var description = this.getAttribute('description');
+		//console.log(description);
+		 //打开详情页面事件
+		 
+		console.log("首页goods_id:"+news_id);
+
+//		mui.openWindow({
+////			url:'http://www.ffp/DedeCMS-V5.7-UTF8-SP2/uploads/m/view.php?aid='+news_id,
+//			url:'http://www.ffp7.com/m/view.php?aid=112',
+//		    id:'newsdetail.html',
+//		    styles:{
+//		    	titleNView: {                       // 窗口的标题栏控件
+//			        titleText:"新闻详情",                // 标题栏文字,当不设置此属性时，默认加载当前页面的标题，并自动更新页面的标题
+//			        titleColor:"#000000",             // 字体颜色,颜色值格式为"#RRGGBB",默认值为"#000000"
+//			        titleSize:"17px",                 // 字体大小,默认17px
+//			        backgroundColor:"#F7F7F7",        // 控件背景颜色,颜色值格式为"#RRGGBB",默认值为"#F7F7F7"
+//			        progress:{                        // 标题栏控件的进度条样式
+//			          color:"#00FF00",                // 进度条颜色,默认值为"#00FF00"  
+//			          height:"2px"                    // 进度条高度,默认值为"2px"         
+//			        },
+//			        splitLine:{                       // 标题栏控件的底部分割线，类似borderBottom
+//			          color:"#CCCCCC",                // 分割线颜色,默认值为"#CCCCCC"  
+//			          height:"1px"                    // 分割线高度,默认值为"2px"
+//			        }
+//  			}
+//		    }
+////		    extras:{ 
+////             "news_id":news_id
+////            // "description":description
+////          }
+//		})
+		mui.openWindowWithTitle({
+			url:'http://www.ffp7.com/m/view.php?aid=112',
+			id:'newsdetailHtml',
+		},{
+			title:{//标题配置
+			  text:"新闻详情",
+			  styles:{
+				color:"#000000",             // 字体颜色,颜色值格式为"#RRGGBB",默认值为"#000000"
+			    size:"17px",                 // 字体大小,默认17px
+			    backgroundColor:"#F7F7F7",        // 控件背景颜色,颜色值格式为"#RRGGBB",默认值为"#F7F7F7"
+			    progress:{                        // 标题栏控件的进度条样式
+			      color:"#00FF00",                // 进度条颜色,默认值为"#00FF00"  
+			      height:"2px"                    // 进度条高度,默认值为"2px"         
+			    },
+			    splitLine:{                       // 标题栏控件的底部分割线，类似borderBottom
+			      color:"#CCCCCC",                // 分割线颜色,默认值为"#CCCCCC"  
+			      height:"1px"                    // 分割线高度,默认值为"2px"
+			    }
+			  }
+			},
+			back:{//左上角返回箭头
+				image:{
+					base64Data:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAb1BMVEUAAAAAev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8AAACubimgAAAAI3RSTlMAGfUTGfQTGPMSGPIYGhgaGBsXGxcbFxwXHBccFhwWHRYdHWufDPQAAAABYktHRACIBR1IAAAAB3RJTUUH4QETEBwooeTlkQAAAJVJREFUSMft1EkSgkAQRNFGUXFWHBDBibr/HTUwD5B/48Ig1y+io7u6MqUhf5hsNEY+j5hMgZ/FJ8Xc9ovos3T96utjbfqN/Nb0O/m96Uv5g+mP8ifTn+Ur01/ka9Nf5RvTt/I309/lH6Z/yr9Mn+Q71/MT8B34K/E58Enzv8R/K98HvnF8p3lr8F7izce7lbf3kJ/lDQp9HdBhgg3PAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE3LTAxLTE5VDE2OjI4OjQwKzA4OjAwpTDFwQAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxNy0wMS0xOVQxNjoyODo0MCswODowMNRtfX0AAAAASUVORK5CYII=',
+					sprite:{//图片源的绘制区域，参考：http://www.html5plus.org/doc/zh_cn/nativeobj.html#plus.nativeObj.Rect
+               		 top:'0px',
+                	 left:'0px',
+                	 width:'100%',
+                	 height:'100%'
+					},
+					position:{//绘制图片的目标区域，参考：http://www.html5plus.org/doc/zh_cn/nativeobj.html#plus.nativeObj.Rect
+	                top:"10px",
+	                left:"10px",
+	                width:"24px",
+	                height:"24px"
+	            	}
+				},
+				click:function(){
+					mui.back = function(event) {
+					plus.webview.close(plus.webview.getWebviewById("newsdetailHtml"));
+					};
+					mui.back();
+				}
+			}
+		})
+	});
+	
+	/**********打开详情页***********/
+	
+	/*********************/
+	/**
+	 * 下拉刷新逻辑实现
+	 * */
+	function pulldownRefresh()
+	{
+		setTimeout(function(){
+			/*请求数据*/				
+			Get(SERVERE,{p:1},function(data){
+			      //pid=2;
+			      var parent=$('#result');
+			      parent.html('');
+			      show(parent,data);
+		});	
+			/*下拉刷新执行完毕*/ 
+			mui("#pullrefresh").pullRefresh().endPulldownToRefresh();
+			mui('#pullrefresh').pullRefresh().refresh(true);
+			
+		},1500);
+	}
+	/**
+	 * 上拉继续加载
+	 */
+	function pullupRefresh()
+	{
+		setTimeout(function(){
+			++pid;
+			Get(SERVERE,{p:pid},function(data){
+			    //pid++;
+			    data = eval('(' + data + ')');
+			    var parent=$('#result');
+			    show(parent,data);
+		   });
+// 		mui.getJSON("http://localhost/thinkphp5.0/public/index.php",function(json){
+//			var obj = eval('(' + json + ')');
+//			var parent=$('#result');
+//	   		show(parent,obj);
+//		});
+			mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
+		},1500);
+	}
+	/**
+	 * 渲染模板
+	 * @param {Object} parent
+	 * @param {Object} data
+	 */
+	function show(parent,data){
+		if(parseInt(data.length)==0){
+			mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+		}
+		//console.log(data);
+		$.each(data, function(i,datas) {
+				//var url=HOST+datas.goods_thumb
+        	var html='<li class="mui-con-ul-li" style="position: relative;" id="' +datas.id+ '">'+
+		     			'<img src="images/17.jpg" />'+
+		     			'<div class="mui-info" style="position: absolute;left:50%;margin-left:-40%;z-index:2;bottom: -5px;width: 80%;text-align: center;">'+
+		     				'<h2 id="mui-title">'+datas.title+'</h2>'+
+		     			'</div>'+
+		     		'</li>';
+				parent.append(html);
+			});
+	}
+  	mui(".mui-slider").slider({
+  	 	interval:1000
+  	});
+  	
+//	mui.getJSON("http://localhost/thinkphp5.0/public/index.php",function(json){
+//		var obj = eval('(' + json + ')');
+//		//console.log(obj.length);
+//      for(var arr in obj){
+//      	//console.log(obj[arr].id);
+//      	var html='<li class="mui-con-ul-li" style="position: relative;">'+
+//		     			'<img src="images/17.jpg" />'+
+//		     			'<div class="mui-info" style="position: absolute;left:50%;margin-left:-40%;z-index:2;bottom: 10px;width: 80%;text-align: center;">'+
+//		     				'<h2 id="mui-title">'+obj[arr].title+'</h2>'+
+//		     			'</div>'+
+//		     		'</li>';
+//		    
+//      }
+//      
+//	});
+
+	
+</script>
+</html>

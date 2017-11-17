@@ -1,0 +1,202 @@
+{
+  "index.html": {
+    "resources": [
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "html/tab-webview-subpage-about.html",
+      "fonts/mui.ttf",
+      "fonts/iconfont.ttf",
+      "js/util.js",
+      "html/tab-webview-subpage-chat.html"
+    ],
+    "refer": [
+      "html/tab-webview-subpage-setting.html",
+      "html/tab-webview-subpage-chat.html",
+      "html/tab-webview-subpage-contact.html",
+      "html/tab-webview-subpage-about.html",
+      "html/new-webview.html"
+    ]
+  },
+  "launch.html": {
+    "resources": [
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "html/tab-webview-subpage-about.html"
+    ],
+    "refer": [
+      "html/tab-webview-subpage-setting.html",
+      "html/tab-webview-subpage-chat.html",
+      "html/tab-webview-subpage-contact.html",
+      "html/tab-webview-subpage-about.html"
+    ]
+  },
+  "html/tab-webview-subpage-setting.html": {
+    "resources": [
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "js/mui.min.js"
+    ],
+    "refer": []
+  },
+  "html/tab-webview-subpage-about.html": {
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "js/util.js"
+    ],
+    "refer": []
+  },
+  "html/tab-webview-subpage-chat.html": {
+    "resources": [
+      "fonts/mui.ttf",
+      "js/mui.min.js",
+      "css/mui.min.css"
+    ],
+    "refer": []
+  },
+  "html/tab-webview-subpage-contact.html": {
+    "resources": [
+      "images/60x60.gif",
+      "js/mui.min.js",
+      "css/mui.min.css"
+    ],
+    "refer": []
+  },
+  "html/new-webview.html": {
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "fonts/mui.ttf"
+    ],
+    "refer": []
+  },
+  "index1.html": {
+    "href": "index1.html",
+    "resources": [
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "js/util.js",
+      "fonts/iconfont.ttf"
+    ],
+    "refer": [
+      "html/tab-webview-subpage-contact.html",
+      "html/tab-webview-subpage-chat.html"
+    ],
+    "priority": 0
+  },
+  "app/tab-top-subpage-1.html": {
+    "resources": [
+      "css/mui.min.css",
+      "app/js/vue.min.js",
+      "app/js/mui.min.js",
+      "app/js/pinyin.js"
+    ],
+    "refer": [
+      "app/detail.html"
+    ]
+  },
+  "app/shouye.html": {
+    "resources": [
+      "app/js/webviewGroup.js",
+      "app/css/shouye.css",
+      "app/tab-top-subpage-1.html",
+      "app/js/common.js",
+      "app/css/mui.min.css",
+      "app/js/mui.min.js"
+    ],
+    "refer": [
+      "app/tab-top-subpage-1.html",
+      "app/tab-top-subpage-3.html",
+      "app/tab-top-subpage-4.html",
+      "app/tab-top-subpage-5.html",
+      "app/tab-top-subpage-2.html"
+    ]
+  },
+  "app/index.html": {
+    "resources": [
+      "app/js/mui.min.js",
+      "app/css/mui.min.css",
+      "images/logo.png",
+      "app/js/paintbtn.js",
+      "app/js/util.js",
+      "app/css/iconfont.css",
+      "app/shouye.html",
+      "app/css/index.css",
+      "fonts/iconfont.ttf",
+      "images/user.png",
+      "images/title.png",
+      "images/logo-bb.png"
+    ],
+    "refer": [
+      "app/shouye.html",
+      "app/setting.html",
+      "app/tab-top-subpage-1.html",
+      "app/tab-top-subpage-2.html",
+      "app/tab-top-subpage-3.html"
+    ]
+  },
+  "app/detail.html": {
+    "resources": [
+      "app/css/list-to-detail.css",
+      "app/css/mui.min.css",
+      "app/js/mui.min.js",
+      "app/js/vue.min.js"
+    ],
+    "refer": []
+  },
+  "app/setting.html": {
+    "resources": [
+      "app/fonts/mui.ttf",
+      "app/css/feedback.css",
+      "app/img/logo.png",
+      "app/js/mui.view.js",
+      "app/js/feedback.js",
+      "app/js/mui.min.js",
+      "images/logo.png",
+      "app/css/mui.min.css"
+    ],
+    "refer": []
+  },
+  "app/tab-top-subpage-4.html": {
+    "href": "app/tab-top-subpage-4.html",
+    "resources": [
+      "app/css/mui.min.css",
+      "app/js/mui.min.js",
+      "app/js/vue.min.js"
+    ],
+    "refer": [
+      "app/detail.html"
+    ],
+    "priority": 0
+  },
+  "app/tab-top-subpage-5.html": {
+    "href": "app/tab-top-subpage-5.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js"
+    ],
+    "refer": [],
+    "priority": 0
+  },
+  "app/tab-top-subpage-3.html": {
+    "href": "app/tab-top-subpage-3.html",
+    "resources": [
+      "app/css/mui.min.css",
+      "app/js/mui.min.js",
+      "app/js/vue.min.js"
+    ],
+    "refer": [
+      "app/detail.html"
+    ],
+    "priority": 0
+  },
+  "app/tab-top-subpage-2.html": {
+    "href": "app/tab-top-subpage-2.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js"
+    ],
+    "refer": [],
+    "priority": 0
+  }
+}

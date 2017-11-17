@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>首页</title>
+    
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="css/shouye.css"/>
+   	<script src="js/mui.min.js"></script>
+   	<script src="js/common.js"></script>
+   	<style>
+   		li{
+   			list-style: none;
+   			font-size: 17px;
+   		}
+
+		.mui-segmented-control.mui-scroll-wrapper{
+			height: 44px;
+			/*line-height: 46px;*/
+		}				
+		.mui-slider-indicator.mui-segmented-control {
+			background-color: #efeff4;
+			box-shadow: 0 1px 10px #888888;/*水平、垂直、模糊距离、阴影颜色*/
+		}
+		.mui-segmented-control .mui-control-item{
+			line-height: 20px;
+		}
+
+		li.letter{
+			letter-spacing: 3px;
+			text-indent: 6px;
+		}
+		li.word{
+			word-spacing: 3px;
+		}
+		.mui-segmented-control.mui-scroll-wrapper .mui-scroll{
+			margin-top:0px;
+		}
+
+   	</style>
+</head>
+<body>
+		<!--顶部选项卡-可左右拖动(webview)-->
+		<div class="mui-content">
+			<div id="slider" class="mui-slider mui-fullscreen">
+				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<div class="mui-scroll">
+						<a class="mui-control-item mui-active" href="#item1mobile" data-wid="tab-top-subpage-1.html">
+							<ul><li class="word">xué kē</li><li class="letter">学 科</li></ul>
+						</a>
+						<a class="mui-control-item" href="#item2mobile" data-wid="tab-top-subpage-2.html">
+							<ul><li class="word">xìng qù</li><li class="letter">兴 趣</li></ul>
+						</a>
+						<a class="mui-control-item" href="#item3mobile" data-wid="tab-top-subpage-3.html">
+							<ul><li class="word">xiǎo shì pín</li><li class="letter">小 视 频</li></ul>
+						</a>
+						<a class="mui-control-item" href="#item4mobile" data-wid="tab-top-subpage-4.html">
+							<ul><li class="word">tuī jiàn</li><li class="letter">推 荐</li></ul>
+						</a>
+						<a class="mui-control-item" href="#item5mobile" data-wid="tab-top-subpage-5.html">
+							<ul><li class="word">tuī jiàn</li><li class="letter">推 荐</li></ul>
+						</a>
+						<a class="mui-control-item" href="#item6mobile" data-wid="tab-top-subpage-6.html">
+							<ul><li class="word">tuī jiàn</li><li class="letter">推 荐</li></ul>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+</body>
+<script src="js/webviewGroup.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	
+	mui.plusReady(function() {
+		var group = new webviewGroup(plus.webview.currentWebview().id,{
+			items: [{
+				id: "tab-top-subpage-1.html",
+				url: "tab-top-subpage-1.html",
+				extras: {}
+			}, {
+				id: "tab-top-subpage-2.html",
+				url: "tab-top-subpage-2.html",
+				extras: {}
+			}, {
+				id: "tab-top-subpage-3.html",
+				url: "tab-top-subpage-3.html",
+				extras: {}
+			}, {
+				id: "tab-top-subpage-4.html",
+				url: "tab-top-subpage-4.html",
+				extras: {}
+			}, {
+				id: "tab-top-subpage-5.html",
+				url: "pullrefresh.html",
+				extras: {}
+			}],
+			onChange: function(obj) {
+				var c = document.querySelector(".mui-control-item.mui-active");
+				if(c) {
+					c.classList.remove("mui-active");
+				}
+				document.querySelector(".mui-scroll .mui-control-item:nth-child(" + (parseInt(obj.index) + 1) + ")").classList.add("mui-active");
+			}
+		});
+		mui(".mui-scroll").on("tap", ".mui-control-item", function(e) {
+			var wid = this.getAttribute("data-wid");
+			group.switchTab(wid);
+		});
+	});
+</script>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title></title>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="css/iconfont.css"/>
+    <link rel="stylesheet" type="text/css" href="css/index.css"/>
+    <style>
+		body{
+			font-family: Heiti SC,Helvetica,HelveticaNeue,Droidsansfallback,Droid Sans;
+		}
+    	.head-img-1{
+			width: 41.6px;
+			height: 41.6px;
+		}
+		.head-img-2{
+			width: 44.6px;
+			height: 41.6px;
+		}
+	.mui-row{
+		padding-top: 22px;
+        height: 80px;
+        text-align: center; 
+        background-color:#D33945;
+    }
+	.mui-col-xs-4.mui-col-sm-4{
+		padding-top: 0px;
+	}
+    </style>
+</head>
+<body>
+	<!--头部信息-->
+	<header class="mui-bar mui-bar-nav mui-row">
+	    <a class="mui-col-xs-4 mui-col-sm-4 mui-text-left"><img class=" head-img" id="head-img-1" src="../images/user.png"/><p style="font-size: 15px;margin-top: -5px;font-weight: bold;">用户名</p></a>		
+		<div class="mui-col-xs-4 mui-col-sm-4 mui-text-center"><img class="head-img" id="head-img-2" src="../images/title.png"></div>
+		<div class="mui-col-xs-4 mui-col-sm-4 mui-text-right"><img class="head-img" id="head-img-2" src="../images/logo-bb.png"></div>
+	</header>
+
+	<!--底部导航-->
+	
+	
+</body>
+<script src="js/mui.min.js"></script>
+<script src="js/util.js"></script>
+<script src="DB/websqlwrapper.js" type="text/javascript" charset="UTF-8"></script>
+<script>
+mui.init();
+/*将全部子页面封装到数组中无需放首页*/
+var subpages = ['shouye.html','setting.html'];
+
+/*设置全部的子页面距顶部45px，距底部51px*/
+var subpages_style={
+	top:"80px",
+	bottom:"51px"
+}
+
+var aniShow = {};
+mui.plusReady(function() {
+	//读取本地存储，检查是否为首次启动
+	var showGuide = plus.storage.getItem("lauchFlag");
+	//仅支持竖屏显示
+	plus.screen.lockOrientation("portrait-primary");
+	if(showGuide) {
+		//有值，说明已经显示过了，无需显示；
+		//关闭splash页面；
+		plus.navigator.closeSplashscreen();
+		plus.navigator.setFullscreen(false);
+		var self = plus.webview.currentWebview();
+		for (var i=0; i<5; i++) {
+			var temp={};
+			var sub = plus.webview.create(subpages[i],subpages[i],subpages_style);
+			if(i > 0)
+			{
+				sub.hide();
+			}else{
+				temp[subpages[i]] = 'true';
+				mui.extend(aniShow,temp);
+			}
+			self.append(sub);
+		}
+	} else {
+		//显示启动导航
+		mui.openWindow({
+			id: 'guide',
+			url: 'guide.html',
+			styles: {
+				popGesture: "none"
+			},
+			show: {
+				aniShow: 'none'
+			},
+			waiting: {
+				autoShow: false
+			}
+		});
+		/**
+		 * websql 数据本地化
+		*/
+
+		//创建数据库
+		var db = WebsqlWrapper({name:'baobaotoutiao',displayName:'baobaotoutiao',version:1,debug:true});
+		//创建表  本地数据缓存 datainfo数据表、intersetinfo个人兴趣表、personinfo个人信息表、wordsinfo生字表
+		db.define('datainfo', {local_id:'INTEGER UNIQUE',id:'INTEGER', title:'TEXT NOT NULL', keywords: 'TEXT',agerank:'INTEGER',gender:'TEXT',indeximg:'TEXT',litpic:'TEXT',arcaddress:'TEXT',arcwordsnum:'INTEGER',downtime:'TEXT',isreaded:'INTEGER',readtime:'TEXT',readtimelength:'TEXT',checkwordnum:'TEXT',ispinyin:'INTEGER',isaloud:'INTEGER'}, datainfoReady);
+		db.define('intersetinfo', {keywordsid:'INTEGER UNIQUE', keywords:'TEXT NOT NULL', weight: 'INTEGER',fkeywordsid:'INTEGER'},datainfoReady);
+		db.define('personinfo', {setid:'INTEGER UNIQUE', setname:'TEXT NOT NULL', setattr: 'TEXT',remark:'TEXT'}, datainfoReady);
+		db.define('wordsinfo', {newwordsid:'INTEGER UNIQUE', newwords:'TEXT', pinyin: 'TEXT',translate:'TEXT',weight:'INTEGER',updatetime:'TEXT'}, datainfoReady);
+		
+		//实例化
+		function datainfoReady(){
+			var d=db.instance('datainfo');
+			d.save({arcid:1,arctitle:'标题',arckeywords:'标题',agerank:'1',gender:'n'},'arcid');
+		}
+		//插入 save 更新数据d.update({id: 2, message: 'fuckworld-updated', num: 123}, 'id');
+		//获取数据, get table.get('num === 123', function(r){console.log('查询数据: ', r);});
+		// 定义一个命令数组
+//      var arr = [
+//            {type: 'save', item: {id: 4, message: 'my name is lilei11', num: 207}, args: 'id'}
+//          , {type: 'save', item: {id: 5, message: 'my name is hameimei', num: 201}, args: 'id'}
+//          , {type: 'query', item: 'SELECT * FROM demo'}
+//          , {type: 'query', item: 'SELECT * FROM demo'}
+//          , {type: 'query', item: 'SELECT * FROM demo'}
+//      ];
+//      // 批处理
+//      table.batch(arr, function(r){
+//          console.log('批处理操作成功！');
+//      });
+
+	}
+});
+</script>
+<script src="js/paintbtn.js"></script>
+</html>
