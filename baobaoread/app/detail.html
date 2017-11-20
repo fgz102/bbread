@@ -36,7 +36,7 @@
 		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			mui.init();
-
+			console.log("详情");
 			function getDefaultData() {
 				return {
 					cover: '',
@@ -59,23 +59,29 @@
 
 			//监听自定义事件，获取新闻详情
 			document.addEventListener('get_detail', function(event) {
+				console.log("进入详情页");
 				var guid = event.detail.guid;
+				console.log(guid);
 				if(!guid) {
 					return;
 				}
 				
 				//前页传入的数据，直接渲染，无需等待ajax请求详情后
-				vm.cover = event.detail.cover;
+				vm.cover = event.detail.litpic;
 				vm.title = event.detail.title;
 				vm.author = event.detail.author;
 				vm.time = event.detail.time;
-				//向服务端请求文章详情内容
-				mui.ajax('http://spider.dcloud.net.cn/api/news/36kr/' + guid, {
-					type:'GET',
+				//向服务端请求文章详情内容http://spider.dcloud.net.cn/api/news/36kr/
+				mui.ajax('http://bbdata.egger520.com/public/index.php/admin/NewsDetail/getNewsDetail',{
+					data:{
+						"aid":guid
+					},
+					type:'POST',
 					dataType: 'json', //服务器返回json格式数据
 					timeout: 15000, //15秒超时
 					success: function(rsp) {
-						vm.content = rsp.content;
+						vm.content = JSON.parse(rsp).body;
+						console.log("详情："+content);
 					},
 					error: function(xhr, type, errorThrown) {
 						mui.toast('获取文章内容失败');

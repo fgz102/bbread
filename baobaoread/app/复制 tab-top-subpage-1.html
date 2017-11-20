@@ -131,13 +131,16 @@
 			<ul id="list" class="mui-table-view">
 				<li class="mui-con-ul-li" v-for="item in items">
 					<a href="javascript:;" :data-guid="item.guid" @tap="open_detail(item)">
-						<img :src="item.litpic"/>
-						<h2 class="title mui-ellipsis-2 " id="testCode">
-							<ruby v-for="n in item.title.length">
-								{{item.title[n-1]}}
-								<rt>{{item.pinyintitle[n-1]}}</rt>
-							</ruby>
-						</h2>
+						<img :src="item.cover"/>
+						
+							<h2 class="title mui-ellipsis-2 " id="testCode">
+								<ruby v-for="n in item.title.length">
+									{{item.title[n-1]}}
+									<rt>{{item.pinyintitle[n-1]}}</rt>
+								</ruby>
+							</h2>
+							<!--<p id="abbrCode">{{item.pinyintitle}}</p>-->
+						
 					</a>
 				</li>
 			</ul>
@@ -161,7 +164,7 @@
 				splitLine: { //底部分割线
 					color: '#cccccc'
 				}
-			};
+			}
 			var db='';
 			//mui初始化，配置下拉刷新
 			mui.init({
@@ -181,9 +184,9 @@
 							}
 
 							var data = {
-//								column: "id,post_id,title,author_name,cover,published_at" //需要的字段名
-								column: "id,title,litpic"
-							};
+								column: "id,post_id,title,author_name,cover,published_at" //需要的字段名
+//								column: "id,title,litpic"
+							}
 
 							if(lastId) { //说明已有数据，目前处于下拉刷新，增加时间戳，触发服务端立即刷新，返回最新数据
 								data.lastId = lastId;
@@ -191,58 +194,43 @@
 							}
 
 							//请求顶部banner信息
-//							mui.getJSON("http://spider.dcloud.net.cn/api/banner/36kr", data, function(rsp) {
-//								news.banner = {
-//									guid: rsp.post_id,
-//									title: rsp.title,
-//									cover: rsp.cover,
-//									author:rsp.author_name,
-//									time:dateUtils.format(rsp.published_at)
-//								};
-//							});
+							mui.getJSON("http://spider.dcloud.net.cn/api/banner/36kr", data, function(rsp) {
+								news.banner = {
+									guid: rsp.post_id,
+									title: rsp.title,
+									cover: rsp.cover,
+									author:rsp.author_name,
+									time:dateUtils.format(rsp.published_at)
+								};
+							});
 							//加载本地数据
 							//打开数据库
 							
-							//请求顶部banner信息
-//							mui.getJSON("http://bbdata.egger520.com/public", data, function(rsp) {
-//								news.banner = {
-//									guid: rsp.id,
-//									title: rsp.title,
-//									cover: rsp.cover,
-//									author:rsp.author_name,
-//									time:dateUtils.format(rsp.published_at)
-//								};
-//							});
-
+							//请求列表信息流
+							mui.getJSON("http://spider.dcloud.net.cn/api/news", data, function(rsp) {
+								mui('#list').pullRefresh().endPulldown();
+								if(rsp && rsp.length > 0) {
+									lastId = rsp[0].id; //保存最新消息的id，方便下拉刷新时使用
+									news.items = news.items.concat(convert(rsp));
+								}
+							});
 							
 							//请求列表信息流
-//							mui.getJSON("http://spider.dcloud.net.cn/api/news", data, function(rsp) {
+//							http://spider.dcloud.net.cn/api/news
+//							mui.getJSON("http://bbdata.egger520.com/public/", data, function(rsp) {
 //								mui('#list').pullRefresh().endPulldown();
 //								if(rsp && rsp.length > 0) {
 //									lastId = rsp[0].id; //保存最新消息的id，方便下拉刷新时使用
 //									news.items = news.items.concat(convert(rsp));
-//								}
-//							});
-							
-							//请求列表信息流http://bbdata.egger520.com/public
-//							http://spider.dcloud.net.cn/api/news
-							mui.getJSON("http://bbdata.egger520.com/public", data, function(rsp) {
-//								console.log(rsp);
-								console.log("获取数据："+JSON.parse(rsp)[0].litpic);
-								
-								mui('#list').pullRefresh().endPulldown();
-								if(rsp && rsp.length > 0) {
-									lastId = rsp[0].id; //保存最新消息的id，方便下拉刷新时使用
-									news.items = news.items.concat(convert(JSON.parse(rsp)));
-//									console.log("数据:"+rsp);
+//									console.log("数据"+rsp);
 									//服务器数据存储本地
 //									for(var num=0;num<rsp.length;num++){
 //										datainfoReady(rsp[num].id,rsp[num].title,rsp[num].post_id,"n",rsp[num].cover,rsp[num].published_at);
 //										console.log(rsp[num].post_id);
 //									}
 
-								}
-							});
+//								}
+//							});
 						}
 					}
 				}//下拉刷新结束
@@ -291,14 +279,13 @@
 			 * @param {Object} item 当前点击的新闻对象
 			 */
 			function open_detail(item) {
-				console.log("cha:"+item.guid);
 				//触发子窗口变更新闻详情
 				mui.fire(webview_detail, 'get_detail', {
-					guid:item.guid,
+					guid: item.guid,
 					title:item.title,
 					author:item.author,
 					time:item.time,
-					cover:item.litpic
+					cover:item.cover
 				});
 
 				//更改详情页原生导航条信息
@@ -319,16 +306,14 @@
 			 */
 			function convert(items) {
 				var newItems = [];
-				console.log("转换："+items);
+				console.log(items);
 				items.forEach(function(item) {
 					newItems.push({
 						guid: item.id, //文档ID
 						title: item.title.split(""),
 						pinyintitle:PinyinHelper.convertToPinyinString(item.title,"^", 2).split("^"),
-//						cover: item.cover
-						litpic: 'http://bb.egger520.com'+item.litpic
+						cover: item.cover
 					});
-					console.log("guid:"+item.id);
 				});
 				return newItems;
 			}
