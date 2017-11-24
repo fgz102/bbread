@@ -61,35 +61,53 @@
 			document.addEventListener('get_detail', function(event) {
 				console.log("进入详情页");
 				var guid = event.detail.guid;
-				console.log(guid);
+				console.log("guid:"+guid);
 				if(!guid) {
 					return;
 				}
 				
 				//前页传入的数据，直接渲染，无需等待ajax请求详情后
 				vm.cover = event.detail.litpic;
-				vm.title = event.detail.title;
+				vm.title = printArray(event.detail.title);
 				vm.author = event.detail.author;
 				vm.time = event.detail.time;
 				//向服务端请求文章详情内容http://spider.dcloud.net.cn/api/news/36kr/
-				mui.ajax('http://bbdata.egger520.com/public/index.php/admin/NewsDetail/getNewsDetail',{
-					data:{
-						"aid":guid
-					},
+				mui.ajax('http://bbdata.egger520.com/public/index.php/admin/news_detail/getNewsDetail',{
+					data:{guid:guid},
 					type:'POST',
 					dataType: 'json', //服务器返回json格式数据
 					timeout: 15000, //15秒超时
-					success: function(rsp) {
-						vm.content = JSON.parse(rsp).body;
-						console.log("详情："+content);
+					success: function(data) {
+						vm.content = JSON.parse(data)[0].body;
+						console.log("详情2："+JSON.parse(data)[0].body);
 					},
 					error: function(xhr, type, errorThrown) {
 						mui.toast('获取文章内容失败');
 						//TODO 此处可以向服务端告警
 					}
 				});
-			});
+//				mui.post('http://bbdata.egger520.com/public/index.php/admin/news_detail/getNewsDetail',{aid:'guid'},function(data){
+//					//服务器返回响应
+//					vm.content = JSON.parse(data)[0].body;
+//					console.log("详情2："+JSON.parse(data)[0].body);
+//				},'json');
 
+			});
+				//
+
+			
+			
+			//循环数组
+			function printArray(data){
+				var r="";
+				for(var i in data){
+					r+=data[i];
+				}
+				return r;
+			}
+			
+		    
+			
 			//重写返回逻辑
 			mui.back = function() {
 				plus.webview.currentWebview().hide("auto", 300);

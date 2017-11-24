@@ -1,18 +1,20 @@
 <!doctype html>
-<html>
+<html lang="zh-cn">
 
 	<head>
 		<meta charset="UTF-8">
 		<title>列表到详情最佳实践</title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/icons-extra.css" rel="stylesheet"/>
+		<link href="css/cmiconfont.css" rel="stylesheet" />
 		<!--<link rel="stylesheet" href="video/css/bvd.css" />-->
 <!--<link rel="stylesheet" href="https://g.alicdn.com/de/prismplayer/2.2.0/skins/default/aliplayer-min.css" />
 <script type="text/javascript" src="https://g.alicdn.com/de/prismplayer/2.2.0/aliplayer-min.js"></script>-->
-		<link rel="stylesheet" href="video/css/aliplayer-min.css" />
-<!--<link rel="stylesheet" href="http://g.alicdn.com/de/prismplayer/2.2.0/skins/default/aliplayer-min.css"/>-->
-<!--<script src="https://g.alicdn.com/de/prismplayer/2.2.0/aliplayer-min.js"></script>-->
-<script type="text/javascript" src="video/js/aliplayer-min.js"></script>
+		<link rel="stylesheet" href="video/css/aliplayer-min.css" /> 
+		<!--<link rel="stylesheet" href="http://g.alicdn.com/de/prismplayer/2.3.0/skins/default/aliplayer-min.css"/>-->
+		<!--<script src="http://g.alicdn.com/de/prismplayer/2.3.0/aliplayer-h5-min.js"></script>-->
+		<script type="text/javascript" src="video/js/aliplayer-h5-min.js"></script>
 		<style type="text/css">
 			.mui-media {
 				font-size: 14px;
@@ -73,46 +75,192 @@
 				color: white;
 				z-index: 11;
 			}
+			rt{
+				font-size: 14px;
+			}
+			ruby{
+				font-size: 17px;
+			}
+
+			.mui-card-link{
+				height: 52px!important;
+				line-height: 52px!important;
+				margin-top: 0!important;
+				color: #3F3F3F;
+			}
 		</style>
 	</head>
 
 	<body>
-
-		<div class="mui-content" id="news">
-			<!--列表信息流 开始-->
-		 <div  class="prism-player" id="J_prismPlayer" style="position: absolute;left:0%;"></div>
-			
-
-			<!--列表信息流 结束-->
+		<!--下拉刷新容器-->
+		<div class="mui-content" id="video">
+			<!--<div class="mui-scroll">-->
+				<!--<div  class="prism-player" id="J_prismPlayer" style="position: absolute;left:0%;"></div>-->
+				
+				<!--列表信息流 开始-->
+				<div id="videolist" class="mui-card" style="margin:0" v-for="item in items" >
+					<div class="mui-card-content mui-card-media" v-bind:style="{'height':'56vw','background-image':'url('+item.vcover+')'}">
+						<div><ruby>{{item.vtitle}}<rt>拼音</rt></ruby></div>
+						<div  class="mui-icon iconfont icon-bofang" style="font-size: 25vw;color:rgba(230 ,230 ,250,0.8);margin:20px 38%;"></div>
+					</div>
+					<div class="mui-card-footer mui-card-media">
+						<img src="../images/user.png" />
+						<div class="mui-media-body">
+							<p style="margin-bottom: -10px;margin-left: -10px;">发布于 {{item.vptime}}</p>
+						</div>
+						<a class="mui-card-link"><span class="mui-icon-extra mui-icon-extra-heart"></span><ruby style="font-size:14px;margin-bottom: -12px;margin-left: 5px;">关 注<rt>guān&nbsp;zhù</rt></ruby></a>
+						<a class="mui-card-link"><span class="mui-icon iconfont icon-pinglun"></span><span>1000</span></a>
+						<a class="mui-card-link"><span class="mui-icon iconfont icon-fenxiang"></span></a>
+					</div>
+				</div>
+				<!--列表信息流 结束-->
+			<!--</div>-->
 		</div>
 
 		<script src="js/mui.min.js"></script>
 		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
 		<!--<script src="video/js/bvd.js"></script>-->
-		 <script>
-    var player = new Aliplayer({
-    id: "J_prismPlayer",
-         autoplay: true,
-         isLive:false,
-         playsinline:true,
-         width:"100%",
-         height:"auto",
-         controlBarVisibility:"click",
-         showBarTime:"2000",
-         useH5Prism:false,
-         useFlashPrism:false,
-         showBuffer:true,
-         source:"https://player.alicdn.com/video/aliyunmedia.mp4",
-         cover:"",
-         skinLayout:[{"name":"controlBar","align":"blabs","x":0,"y":0,"children":[{"name":"progress","align":"tlabs","x":0,"y":0},
-                {"name":"volume","align":"tr","x":20,"y":25},
-                {"name":"playButton","align":"tl","x":15,"y":26},
-                {"name":"fullScreenButton","align":"tr","x":20,"y":25},
-                {"name":"timeDisplay","align":"tl","x":10,"y":24},
-         		{"name":"infoDisplay","align":"cc"},
-         		{"name":"errorDisplay","align":"tlabs","x":0,"y":0}
-         ]}]
-});
+		<script>
+		
+		 var data={	
+			column:"videoid,videotitle,videocover,videolength,videoFDurl,author,uploadtime" //需要查询的字段
+//			column: "id,post_id,title,author_name,cover,published_at" //需要的字段名
+			
+		 };
+		 mui.getJSON("http://bbdata.egger520.com/public/index.php/admin/video_list/getVideoList",data,function(vi){
+			
+			vi=JSON.parse(vi);
+			console.log(vi);
+			videolist.items = videolist.items.concat(convert(vi));
+		 });
+		 
+		 /**
+			 * 1、将服务端返回数据，转换成前端需要的格式
+			 * 2、若服务端返回格式和前端所需格式相同，则不需要改功能
+			 * 
+			 * @param {Array} items 
+			 */
+			function convert(items) {
+				var newItems = [];
+				items.forEach(function(item) {
+					newItems.push({
+					vid: item.videoid,
+					vtitle: item.videotitle,
+					vcover: item.videocover,
+					vfdurl: item.videoFDurl,
+					vptime: dateUtils.format(item.uploadtime)
+					});
+				});
+				return newItems;
+			}
+		 //mui初始化，配置下拉刷新
+//		 mui.init({
+//		 	pullRefresh : {
+//			    container:"#videolist",//下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
+//			    down : {
+//			      style:'circle',//必选，下拉刷新样式，目前支持原生5+ ‘circle’ 样式
+//			      color:'#2BD009', //可选，默认“#2BD009” 下拉刷新控件颜色
+//			      height:'50px',//可选,默认50px.下拉刷新控件的高度,
+//			      range:'100px', //可选 默认100px,控件可下拉拖拽的范围
+//			      offset:'0px', //可选 默认0px,下拉刷新控件的起始位置
+//			      auto: true,//可选,默认false.首次加载自动上拉刷新一次
+//			      callback :function(){
+//							if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+//								plus.nativeUI.toast('似乎已断开与互联网的连接', {
+//									verticalAlign: 'top'
+//								});
+//								return;
+//							}
+//							console.log("jinru");
+//
+//							
+//							
+//							
+//						} //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+//			    }
+//			}
+//		 });
+			
+		 var videolist = new Vue({
+		 	el:'#video',
+		 	data:{
+		 		items:[] //视频列表信息流数据
+		 	},
+		 	methods:{
+		 		palyVideo:function(){
+		 		
+		 	}}
+		 });
+		 
+		 /**
+		 * 格式化时间的辅助类，将一个时间转换成x小时前、y天前等
+		 */
+		var dateUtils = {
+			UNITS: {
+				'年': 31557600000,
+				'月': 2629800000,
+				'天': 86400000,
+				'小时': 3600000,
+				'分钟': 60000,
+				'秒': 1000
+			},
+			humanize: function(milliseconds) {
+				var humanize = '';
+				mui.each(this.UNITS, function(unit, value) {
+					if(milliseconds >= value) {
+						humanize = Math.floor(milliseconds / value) + unit + '前';
+						return false;
+					}
+					return true;
+				});
+				return humanize || '刚刚';
+			},
+			format: function(dateStr) {
+				var date = this.parse(dateStr)
+				var diff = Date.now() - date.getTime();
+				if(diff < this.UNITS['天']) {
+					return this.humanize(diff);
+				}else if(diff > this.UNITS['天']&&diff< this.UNITS['月']){
+					return this.humanize(diff);
+				}else if(diff > this.UNITS['月']&&diff< this.UNITS['年']){
+					return this.humanize(diff);
+				}
+				
+				var _format = function(number) {
+					return(number < 10 ? ('0' + number) : number);
+				};
+				return date.getFullYear() + '/' + _format(date.getMonth() + 1) + '/' + _format(date.getDay()) 
+//				+ '-' + _format(date.getHours()) + ':' + _format(date.getMinutes());
+			},
+			parse:function (str) {//将"yyyy-mm-dd HH:MM:ss"格式的字符串，转化为一个Date对象
+				var a = str.split(/[^0-9]/);
+				return new Date (a[0],a[1]-1,a[2],a[3],a[4],a[5] );
+			}
+		};
+		
+   		 var player = new Aliplayer({
+		    id: "J_prismPlayer",
+		         autoplay: false,
+		         isLive:false,
+		         playsinline:true,
+		         width:"100%",
+		         height:"211px",
+		         controlBarVisibility:"click",
+		         hideBarTime:"3000ms",
+		         useH5Prism:true,
+		         useFlashPrism:false,
+		         source:"http://player.alicdn.com/video/aliyunmedia.mp4",
+		         cover:"http://video.egger520.com/snapshot/e5fdf0f6d90e4991a5a2e56bbe442dba00001.jpg",
+		         skinLayout:[{"name":"fullControlBar","align":"tlabs","x":0,"y":0,"children":[{"name":"fullTitle","align":"tl","x":25,"y":6}]},
+		                {"name":"controlBar","align":"blabs","x":0,"y":0,"children":[{"name":"timeDisplay","align":"tl","x":10,"y":24},
+		                {"name":"fullScreenButton","align":"tr","x":20,"y":25},
+		                {"name":"progress","align":"tlabs","x":0,"y":0},
+		                {"name":"playButton","align":"tl","x":15,"y":26}]},
+		                {"name":"bigPlayButton","align":"blabs","x":30,"y":80},
+		                {"name":"H5Loading","align":"cc"}]
+         },function(player){
+            console.log("播放器创建了。");
+         });
 
   		</script>
 	</body>
